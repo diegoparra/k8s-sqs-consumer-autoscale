@@ -1,0 +1,17 @@
+import os
+
+
+
+SCALE_UP_MESSAGES = os.environ['SCALE_UP_MESSAGES']
+SCALE_UP_COOL_DOWN = os.environ['SCALE_UP_COOL_DOWN']
+SCALE_DOWN_COOL_DOWN = os.environ['SCALE_DOWN_COOL_DOWN']
+POOL_PERIOD = os.environ['POOL_PERIOD']
+SCALE_DOWN_MESSAGES = os.environ['SCALE_DOWN_MESSAGES']
+SQS_QUEUE_URL = os.environ['SQS_QUEUE_URL']
+SLACK_URL = os.environ['SLACK_URL']
+
+
+DEPLOYMENT_NAME = os.environ["DEPLOYMENT_NAME"]
+NAMESPACE = os.environ["NAMESPACE"]
+MAX_PODS = os.environ["MAX_PODS"]
+MIN_PODS = os.environ["MIN_PODS"]

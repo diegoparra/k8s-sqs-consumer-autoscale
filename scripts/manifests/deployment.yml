@@ -1,0 +1,75 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: app-sqs-autoscaler
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-sqs-autoscaler
+    spec:
+      containers:
+      - name: app-sqs-autoscaler
+        image: diego/sqs-autoscaler:latest
+        env:
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+
+          - name: CLUSTER
+            value: {{ CLUSTER_NAME }}
+
+          - name: AWS_REGION
+            value: {{ AWS_REGION }}
+
+          - name: APP_NAMESPACE
+            value: {{ APP_NAMESPACE }}
+
+          - name: DEPLOYMENT_NAME
+            value: {{ DEPLOYMENT_NAME }}
+
+          - name: POD_NAME
+            value: {{ POD_NAME }}
+
+          - name: SLACK_URL
+            value: "https://hooks.slack.com/services/123/123/123"
+
+          - name: SQS_QUEUE_URL
+            value: "https://sqs.$(AWS_REGION).amazonaws.com/$(AWS_ID)/$(SQS_QUEUE)"
+
+          - name: POOL_PERIOD
+            value: "30"
+
+          - name: SCALE_DOWN_COOL_DOWN
+            value: "30"
+
+          - name: SCALE_UP_COOL_DOWN
+            value: "30"
+
+          - name: SCALE_UP_MESSAGES
+            value: "100"
+
+          - name: SCALE_DOWN_MESSAGES
+            value: "50"
+
+          - name: MAX_PODS
+            value: "30"
+
+          - name: MIN_PODS
+            value: "1"
+
+        resources:
+          requests:
+            memory: "50m"
+            cpu: "100m"
+          limits:
+            memory: "500m"
+            cpu: "200m"
+        
+        command: 
+          - /bin/sh
+          - -c 
+          - aws eks update-kubeconfig --name ${CLUSTER}; python3 src/sqs.py
