@@ -4,8 +4,6 @@ FROM python:3.7-alpine
 COPY requirements.txt requirements.txt
 RUN echo "nameserver 172.20.0.10" > /etc/resolv.conf; \
     echo "nameserver 8.8.8.8" >> /etc/resolv.conf; cat /etc/resolv.conf
-RUN apk add --update --no-cache bind-tools
-RUN dig pypi.org
 RUN pip install --upgrade pip; pip install -r requirements.txt
 
 # Get the app
