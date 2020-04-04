@@ -1,6 +1,6 @@
-boto3==1.9.244
+boto3==1.12.3
 kubernetes==10.0.1
-awscli==1.16.212
-botocore==1.12.244
+awscli==1.18.3
+botocore==1.15.3
 slack-webhook==1.0.2
 PyYAML<=5.1
